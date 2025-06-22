@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istiod
+  namespace: argocd
+spec:
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+  project: default
+  sources:
+    - chart: istiod
+      repoURL: https://istio-release.storage.googleapis.com/charts
+      targetRevision: v1.25.2 # Replace with the istiod version you'd like to install or upgrade to
+      helm:
+        valueFiles: 
+        - $values/istiod-values.yaml
+    - repoURL: 'https://github.com/wartoz/istio.git'
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system

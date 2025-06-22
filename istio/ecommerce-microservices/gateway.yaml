@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ecommerce-gateway
+  namespace: ecommerce
+spec:
+  selector:
+    istio: ingress
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: k8s-ecommerce-docker-compose-zip-tls
+    hosts:
+    - "*"
+# La Gateway crée le point d’entrée pour le trafic externe

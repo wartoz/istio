@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ecommerce-microservices
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/wartoz/istio.git'
+    targetRevision: main
+    path: ecommerce-microservices  # <-- sous-dossier contenant les fichiers YAML
+    directory:
+      recurse: true      # optionnel, utile si tu as des sous-dossiers
+  destination:
+    server: https://kubernetes.default.svc

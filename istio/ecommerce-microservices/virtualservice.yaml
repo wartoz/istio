@@ -1,0 +1,22 @@
+# VirtualService pour l’accès externe
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ecommerce-gateway-routes
+  namespace: ecommerce
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ecommerce-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: ecommerce-ui
+        port:
+          number: 4000
+
+# Le VirtualService achemine ce trafic externe vers l'application

@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-base
+  namespace: argocd
+spec:
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+  project: default
+  sources:
+    - chart: base
+      repoURL: https://istio-release.storage.googleapis.com/charts
+      targetRevision: v1.25.2 # Replace with the istio-base version you'd like to install or upgrade to
+      helm:
+        valueFiles: 
+        - $values/istio-base-values.yaml
+    - repoURL: 'https://github.com/wartoz/istio.git'
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-system
